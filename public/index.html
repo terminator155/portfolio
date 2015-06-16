@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Portfolio Optimization</title>
+	<script type="text/javascript" src="client.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/modules/data.js"></script>
+	<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+	<!-- Additional files for the Highslide popup effect -->
+	<script type="text/javascript" src="http://www.highcharts.com/media/com_demo/highslide-full.min.js"></script>
+	<script type="text/javascript" src="http://www.highcharts.com/media/com_demo/highslide.config.js" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="http://www.highcharts.com/media/com_demo/highslide.css" />
+	<script>
+	$(function () {
+		$('#container').highcharts({
+			chart: {
+			            zoomType: 'xy'
+			        },
+
+			title: {
+				text: 'Optimized strategies of investment at different levels of profit and risk'
+			},
+
+			xAxis: [{
+				tickWidth: 0,
+				gridLineWidth: 1,
+				labels: {
+					align: 'left',
+					x: 0,
+					y: 10
+				},
+				categories:['Level 1','Level 2','Level 3','Level 4','Level 5'],
+				crosshair:true
+			}],
+
+			yAxis: [{ // left y axis
+				title: {
+					text: "Expected profit"
+				},
+				height:'60%',
+				labels: {
+					format: '{value:.,0f}',
+					style: {
+					    color: Highcharts.getOptions().colors[0]
+					}
+				},
+				
+			}, { // right y axis
+				gridLineWidth: 0,
+				title: {
+					text: "Risk(variance)"
+				},
+				height:'60%',
+				labels: {
+					format: '{value:.,0f}',
+					style: {
+					    color: Highcharts.getOptions().colors[1]
+					}
+				},
+				opposite:true
+			},{
+				title:{
+					text:"Percentages"
+				},
+				align:'right',
+				offset:0,
+				top:'65%',
+				height:'35%'
+			}],
+
+			legend: {
+				align: 'left',
+				verticalAlign: 'top',
+				y: 12,
+				floating: true,
+				borderWidth: 0
+			},
+
+			tooltip: {
+				shared: true,
+				crosshairs: true
+			},
+			series:[{
+				name:'Expected profit',
+				data: [0.1,-0.4, 0.6,  0.09,  0.5],
+				yAxis:1,
+				lineWidth: 4,
+				type:'spline',
+				marker: {
+					radius: 4
+				}
+			},
+			{
+				name:'Risk(variance)',
+				data:[5, 7 ,9, 10, 13],
+				type:'spline',
+				lineWidth: 4,
+				marker: {
+					radius: 4
+				}
+			},{
+				name:"Level1",
+				type:'column',
+				yAxis:2,
+				data:[1,0,0,0,0]
+			},{
+				name:"Level2",
+				type:'column',
+				yAxis:2,
+				data:[0.9,0.1,0,0,0]
+			},{
+				name:"Level3",
+				type:'column',
+				yAxis:2,
+				data:[0.3,0.4,0,0.3]
+			},{
+				name:"Level4",
+				type:'column',
+				yAxis:2,
+				data:[0,0.1,0.4,0.2,0.3]
+			},{
+				name:"Level5",
+				type:'column',
+				yAxis:2,
+				data:[0,0,0.6,0.1,0.1]
+			}],
+
+			plotOptions: {
+				column:{
+					stacking:'percent'
+				},
+				series: {
+					cursor: 'pointer',
+					point: {
+						events: {
+							click: function (e) {
+								hs.htmlExpand(null, {
+									pageOrigin: {
+										x: e.pageX || e.clientX,
+										y: e.pageY || e.clientY
+									},
+									headingText: this.series.name,
+									maincontentText: Highcharts.dateFormat('%A, %b %e, %Y', this.x) + ':<br/> ' +
+									this.y + ' visits',
+									width: 200
+								});
+							}
+						}
+					},
+					marker: {
+						lineWidth: 1
+					}
+				}
+			},
+		});
+	});
+
+
+			
+	</script>
+	<style>
+	td, th {
+	    font-size: 1em;
+	    border: 1px solid #98bf21;
+	    padding: 3px 7px 2px 7px;
+	}
+
+	th {
+	    font-size: 1.1em;
+	    text-align: left;
+	    padding-top: 5px;
+	    padding-bottom: 4px;
+	    background-color: #A7C942;
+	    color: #ffffff;
+	}
+
+	tr.alt td {
+	    color: #000000;
+	    background-color: #EAF2D3;
+	}
+	
+	#mainFrame{
+		width:1024px;
+		margin:0 auto;
+	}
+		
+	</style>
+</head>
+<body>
+	<div id="mainFrame">
+		<h1>Optimisation de portefeuille</h1>
+		<h3>-- Lewen ZHAO</h3>
+		<a href="mailto:zhaolewen@gmail.com">zhaolewen@gmail.com</a>
+		<h3>Introduction</h3>
+		<p>Optimisation de portefeuille est une application crée pour optimiser la stratégie d'investissement dans le marché d'actions. </p>
+		
+		<p>Avec l'émergence des outils de Big Data, Stream Processing et Machine Learning, on est de plus en plus capable de prendre en compte les données historiques et actuelles à mieux guider, ou évaluer une décision d'investissement. Mais les outils informatiques ne sont pas toujours accessible aux mains des utilisateurs, donc, l'idée pour le start-up est de développer un système interactif pour mieux gérer l'argent du utilisateur. L'exemple qu l'on a fait ici démontre comment le système peut guider l'utilisateur à diversifier l'investissement pour obtenir un équilibre entre la taux de profit et le risque.</p>
+		
+		<h3>Structure de l'application</h3>
+		
+		<p>Dans cette application, on utilise Hadoop et Java pour implémenter les algorithmes du traitement de données. MongoDB est utilisé pour stocker les données intermédiaire. Ici, on a utilisé les données de Nasdaq du 20 juillet 2014 au 20 février pour faire l'analyse. Le site <a href="http://www.stockhistoricaldata.com">Historical Stock Data.com</a> fournit le service du téléchargement des données journalières, que l'on peut facilement convertir aux fichiers textes pour les étapes d'analyses suivantes.</p>
+		<p>D'abord, on fait une analyse statistique pour déterminer l'espérance du profit et sa variance. Puis, on élimine toutes les bourses inefficaces, c'est-à-dire, si l'expérance de la bourse A et inférieure à celle de la bourse B, au même temps, la variance de la bourse A est supérieure à celle de la bourse B, on peut conclure que la bourse A est inefficace.</p>
+		
+		<img src="/pics/overview.png" style="width:40%;margin-left:auto;margin-right:auto;display:block"/>
+		
+		<p>Puis, c'est à l'utilisateur de choisir les bourses qu'il veut. Comme en générale, plus l'espérance du profit augmente, plus sa variance s'accroît. Si l'on fait une sélection de bourses couvrant au même temps celles qui ont une meilleure espérance du profit et celles qui ont une plus petite variance, on peut faire une combinaison linéaire pour obetnir une portefeuille qui a une excellente espérance de profit et une petite variance au même temps.</p>
+		
+		<h3>Démonstration</h3>
+		<p>On a réalisé cette application-web pour mieux démontrer l'idée de l'application et du start-up. Pour ce faire, on a choisit les bourses suivantes:</p>
+		<p style="text-align:center;font-weight:bold">LMBS,FEMB,CLAC,FTGC,SKIS,PRGN,APTO,CACH</p>
+		<p>Après l'optimisation, on peut observer en "Level 2" que, si l'on investit 100% de l'argent en CACH, on a une espérance de profit de 2.66% et une variance de 0.01. Alors que si l'on investit 72.46% de l'argent en APTO et 27.54% d'argent en CACH, on a une espérance de 2.23% et une variance de 0.002. On observe que l'on a obtenu une diminution très grande de la variance en échange d'une très petite marge de l'espérance de profit.</p>
+		<p>Vous pouvez choisissez vous-même les bourses auxquelle vous vous intéressez pour voir l'effet de l'échange entre le profit et le risque. </p>
+		
+		<h3>Sélection statistique des meilleures bourses de Nasdaq</h3>
+		<table id="stockTable" style="width:40%;margin-left:auto;margin-right:auto;">
+			<tr>
+				<th>Bourses</th>
+				<th>Profit(espérance)</th>
+				<th>Risque(variance)</th>
+				<th>Sélectionnée</th>
+			</tr>
+		</table>
+		<div style="margin-left:auto;margin-right:auto;text-align:center;height:30px">
+			<input id="requestData" type="button" value="Refaire l'optimisation" style="width:50%;height:100%;font-size:3em;margin:auto"/>
+		</div>
+		<div id="container" style="min-width:310px; height: 600px; margin:0 auto"></div>
+		<h3>Conclusion</h3>
+		<p>En appliquant les algorithmes aux données, on a trouvé une meilleure façon de gérer l'argent, ou de faire les décision sur l'investissement. Cette application peut être l'idée de départ pour un start-up qui propose le service de conseil aux investisseurs. Bien qu'il n'existe pas un algorithme parfaite pour faire l'investissement, avec la recherche et développement dans ce domaine, les conseils que l'on a proposés seront de plus en plus informatifs et éclairants.</p>
+		<h3>Liens</h3>
+		<ol>
+			<li>
+				<p>Git pour ce page web, réalisée avec NodeJs et Java:</p>
+				<a href="https://github.com/terminator155/portfolio">https://github.com/terminator155/portfolio</a>
+			</li>
+			<li>
+				<p>Git pour l'application Ubuntu qui faire la procedure complète de l'optimisation de portefeuille, réalisée avec Hadoop et MongoDB:</p>
+				<a href="https://github.com/terminator155/PortfolioOptimization">https://github.com/terminator155/PortfolioOptimization</a>
+			</li>
+		</ol>
+	</div>
+</body>
+</html>

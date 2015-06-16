@@ -1,0 +1,11 @@
+{
+	"name" : "PortfolioOptimization",
+	"version" : "1.0.0",
+	"description" : "Demonstration of the results of Portfolio Optimization",
+	"dependencies" : {
+		"socket.io" : "latest",
+		"express" : "latest",
+		"ejs" : "latest"
+	},
+	"author" : "Lewen ZHAO"
+}
